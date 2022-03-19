@@ -4,7 +4,7 @@ import io.ktor.client.*
 import io.ktor.client.engine.android.*
 
 interface ResponseService {
-    suspend fun getPosts(): String?
+    suspend fun getPosts(): String
 
     companion object {
         fun create(): ResponseService {
