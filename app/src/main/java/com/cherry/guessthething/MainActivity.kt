@@ -4,11 +4,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.compose.rememberNavController
 import com.cherry.guessthething.domain.CartoonViewModel
-import com.cherry.guessthething.model.Cartoon
-import com.cherry.guessthething.view.StartScreen
-import kotlinx.coroutines.launch
+import com.cherry.guessthething.view.MainNavHost
 
 class MainActivity : ComponentActivity() {
 
@@ -16,14 +14,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = CartoonViewModel()
-        var list: ArrayList<Cartoon>
-        // lifecycleScope.launch {
 
-            list = viewModel.cartoons
+        //test
+        val list = viewModel.cartoons
             Log.i("bebra", if (list.isEmpty())"isEmpty" else list[1].toString())
-      //  }
+
         setContent {
-StartScreen(viewModel = viewModel)
+            val navHostController = rememberNavController()
+            MainNavHost(navHostController = navHostController, viewModel = viewModel)
         }
     }
 }

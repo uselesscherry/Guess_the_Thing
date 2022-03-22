@@ -1,12 +1,15 @@
 package com.cherry.guessthething.domain
 
 import android.util.Log
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cherry.guessthething.data.remote.ResponseService
 import com.cherry.guessthething.data.remote.ResponseServiceImpl
 import com.cherry.guessthething.model.Cartoon
-import com.cherry.guessthething.util.parseHtmlToCartoonList
+import com.cherry.guessthething.view.QuestionState
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -15,26 +18,37 @@ class CartoonViewModel(
     : ResponseServiceImpl = ResponseService.create() as ResponseServiceImpl
 ) : ViewModel() {
 
+
     var cartoons: ArrayList<Cartoon> = arrayListOf()
     private val buttonCount = 4
     val isLoaded: Boolean
-    get() = cartoons.isNotEmpty()
+        get() = cartoons.isNotEmpty()
 
-    private object Setting {
-        lateinit var rightAnswer: String
-        var rightAnswerPosition: Int = 0
-    }
+    private lateinit var _state: MutableState<QuestionState>
+    lateinit var state: State<QuestionState>
+
 
     init {
-
         Log.i("bebra", isLoaded.toString())
         viewModelScope.launch {
             cartoons = loadCartoonList()
-
+            playGame()
             Log.i("bebra", isLoaded.toString())
+            _state = mutableStateOf(
+                QuestionState(
+                    rightAnswer = Setting.rightAnswer,
+                    variants = Setting.variants
+                )
+            )
+            state = _state
         }
     }
 
+    private object Setting {
+        lateinit var rightAnswer: Cartoon
+        var rightAnswerIndex: Int = -1
+        var variants = arrayListOf<String>()
+    }
 
     private suspend fun loadCartoonList(): ArrayList<Cartoon> {
         val text = responseService.getPosts()
@@ -42,12 +56,45 @@ class CartoonViewModel(
     }
 
 
-    fun playGame() {
-
+    private fun playGame() {
+        Setting.variants = arrayListOf()
+        generateAnswer()
+        Setting.variants.add(Setting.rightAnswer.name)
+        Setting.variants.addAll(generateWrongAnswer())
+        Setting.variants.shuffle()
     }
 
-    private fun generateQuestion() {
-        Setting.rightAnswerPosition = Random.nextInt(buttonCount)
+    private fun generateAnswer() {
+        var isFound = false
+        while (!isFound) {
+            val newIndex = Random.nextInt(cartoons.size)
+            if (newIndex != Setting.rightAnswerIndex) {
+                isFound = true
+                Setting.rightAnswerIndex = newIndex
+            }
+        }
+        Setting.rightAnswer = cartoons[Setting.rightAnswerIndex]
     }
 
+    private fun generateWrongAnswer(): List<String> {
+        var count = 0
+        val listOfWrongAnswers = mutableListOf<String>()
+        while (count != buttonCount - 1) {
+            val tempWrongAnswer = cartoons[Random.nextInt(cartoons.size)].name
+            if (tempWrongAnswer != Setting.rightAnswer.name && listOfWrongAnswers.all { it != tempWrongAnswer }) {
+                listOfWrongAnswers.add(tempWrongAnswer)
+                count++
+            }
+        }
+        return listOfWrongAnswers
+    }
+
+    fun onClickEvent(answer: String) {
+        val isRightAnswer = answer == _state.value.rightAnswer.name
+        _state.value = state.value.copy(isAnswerRight = isRightAnswer)
+        playGame()
+        _state.value =
+            state.value.copy(rightAnswer = Setting.rightAnswer, variants = Setting.variants)
+
+    }
 }

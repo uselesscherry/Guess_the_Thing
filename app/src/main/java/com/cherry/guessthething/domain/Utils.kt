@@ -1,14 +1,18 @@
-package com.cherry.guessthething.util
+package com.cherry.guessthething.domain
 
+import androidx.compose.ui.graphics.Color
 import com.cherry.guessthething.model.Cartoon
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-fun String.trimHtmlCode(): String {
-    return this.substringAfter("sect-content").substringBefore("bottom-nav clr ignore-select")
+object ProjectColors {
+    val Lavander = Color(0xFFDCB6D9)
+    val DarkBlue = Color(0xFF020910)
+    val Mint = Color(0xFF9DF199)
+    val Pinky = Color(0xFFE08383)
 }
 
- fun parseHtmlToCartoonList(trimmedHtmlCode: String): ArrayList<Cartoon> {
+fun parseHtmlToCartoonList(trimmedHtmlCode: String): ArrayList<Cartoon> {
     val imagePattern: Pattern = Pattern.compile("<img src=\"(.*?)\" alt=\"")
     val imageMatcher: Matcher = imagePattern.matcher(trimmedHtmlCode)
 
