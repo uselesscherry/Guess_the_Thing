@@ -5,6 +5,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
@@ -37,7 +39,8 @@ fun QuizScreen(viewModel: CartoonViewModel) {
             shape = RoundedCornerShape(16.dp)
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 SubcomposeAsyncImage(
                     model = state.rightAnswer.posterImageUrl,
@@ -49,19 +52,20 @@ fun QuizScreen(viewModel: CartoonViewModel) {
                         .fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(12.dp))
-                Box(modifier = Modifier.padding(8.dp)) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        for (i in state.variants) {
-                            ProjectOutlinedButton(text = i) {
-                                viewModel.onClickEvent(i)
+                Box(modifier = Modifier.padding(8.dp), contentAlignment = Alignment.Center) {
+
+                    LazyColumn(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        contentPadding = PaddingValues(bottom = 12.dp)
+                    ){
+                        items(state.variants){ variant->
+
+                            ProjectOutlinedButton(text =variant) {
+                                viewModel.onClickEvent(variant)
                             }
-                            Spacer(modifier = Modifier.height(12.dp))
                         }
                     }
                 }
-
             }
         }
     }
