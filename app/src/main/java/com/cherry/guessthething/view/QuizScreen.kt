@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
-import com.cherry.guessthething.domain.CartoonViewModel
+import com.cherry.guessthething.CartoonViewModel
 import com.cherry.guessthething.domain.ProjectColors
 import com.cherry.guessthething.view.components.ProjectOutlinedButton
 

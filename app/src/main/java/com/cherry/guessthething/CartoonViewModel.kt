@@ -1,4 +1,4 @@
-package com.cherry.guessthething.domain
+package com.cherry.guessthething
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
@@ -6,20 +6,21 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.cherry.guessthething.data.remote.RepositoryImpl
 import com.cherry.guessthething.data.remote.ResponseService
 import com.cherry.guessthething.data.remote.ResponseServiceImpl
+import com.cherry.guessthething.domain.parseHtmlToCartoonList
 import com.cherry.guessthething.model.Cartoon
 import com.cherry.guessthething.view.QuestionState
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class CartoonViewModel(
-    private val responseService
-    : ResponseServiceImpl = ResponseService.create() as ResponseServiceImpl
+    repository: RepositoryImpl
 ) : ViewModel() {
 
 
-    var cartoons: ArrayList<Cartoon> = arrayListOf()
+    var cartoons: List<Cartoon> = emptyList()
     private val buttonCount = 4
     val isLoaded: Boolean
         get() = cartoons.isNotEmpty()
@@ -31,7 +32,8 @@ class CartoonViewModel(
     init {
         Log.i("bebra", isLoaded.toString())
         viewModelScope.launch {
-            cartoons = loadCartoonList()
+            repository.downloadCartoonsList()
+            cartoons = repository.cartoonsList
             playGame()
             Log.i("bebra", isLoaded.toString())
             _state = mutableStateOf(
@@ -49,12 +51,6 @@ class CartoonViewModel(
         var rightAnswerIndex: Int = -1
         var variants = arrayListOf<String>()
     }
-
-    private suspend fun loadCartoonList(): ArrayList<Cartoon> {
-        val text = responseService.getPosts()
-        return parseHtmlToCartoonList(text)
-    }
-
 
     private fun playGame() {
         Setting.variants = arrayListOf()
