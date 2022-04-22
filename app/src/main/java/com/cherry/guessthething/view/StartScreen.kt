@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.cherry.guessthething.domain.CartoonViewModel
+import com.cherry.guessthething.CartoonViewModel
 import com.cherry.guessthething.view.components.ProjectOutlinedButton
 import kotlinx.coroutines.delay
 
