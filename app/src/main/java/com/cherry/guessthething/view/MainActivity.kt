@@ -6,14 +6,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.rememberNavController
 import com.cherry.guessthething.CartoonViewModel
-import com.cherry.guessthething.data.remote.RepositoryImpl
 
 class MainActivity : ComponentActivity() {
 
     private lateinit var viewModel: CartoonViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = CartoonViewModel(repository = RepositoryImpl())
+        viewModel = CartoonViewModel(application)
 
         //test
         val list = viewModel.cartoons

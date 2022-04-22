@@ -1,24 +1,22 @@
 package com.cherry.guessthething
 
+import android.app.Application
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.cherry.guessthething.data.remote.RepositoryImpl
-import com.cherry.guessthething.data.remote.ResponseService
-import com.cherry.guessthething.data.remote.ResponseServiceImpl
-import com.cherry.guessthething.domain.parseHtmlToCartoonList
+import com.cherry.guessthething.data.RepositoryImpl
 import com.cherry.guessthething.model.Cartoon
 import com.cherry.guessthething.view.QuestionState
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class CartoonViewModel(
-    repository: RepositoryImpl
+    application: Application,
+    repository: RepositoryImpl = RepositoryImpl(application = application)
 ) : ViewModel() {
-
 
     var cartoons: List<Cartoon> = emptyList()
     private val buttonCount = 4
@@ -28,12 +26,12 @@ class CartoonViewModel(
     private lateinit var _state: MutableState<QuestionState>
     lateinit var state: State<QuestionState>
 
-
     init {
         Log.i("bebra", isLoaded.toString())
         viewModelScope.launch {
-            repository.downloadCartoonsList()
-            cartoons = repository.cartoonsList
+            repository.loadCartoonsList()
+
+            cartoons = repository.getCartoons()
             playGame()
             Log.i("bebra", isLoaded.toString())
             _state = mutableStateOf(
