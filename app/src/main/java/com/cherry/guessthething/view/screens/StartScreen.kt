@@ -1,4 +1,4 @@
-package com.cherry.guessthething.view
+package com.cherry.guessthething.view.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.cherry.guessthething.CartoonViewModel
+import com.cherry.guessthething.view.Screen
 import com.cherry.guessthething.view.components.ProjectOutlinedButton
 import kotlinx.coroutines.delay
 
