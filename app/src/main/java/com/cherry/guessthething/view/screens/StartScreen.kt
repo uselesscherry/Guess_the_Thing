@@ -14,7 +14,7 @@ import com.cherry.guessthething.view.components.ProjectOutlinedButton
 import kotlinx.coroutines.delay
 
 @Composable
-fun StartScreen(navHostController: NavHostController, viewModel: CartoonViewModel) {
+fun StartScreen(navController: NavHostController, viewModel: CartoonViewModel) {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
         var listIsLoaded by remember {
             mutableStateOf(viewModel.isLoaded)
@@ -32,7 +32,7 @@ fun StartScreen(navHostController: NavHostController, viewModel: CartoonViewMode
                 Text(text = "if your answer is right background will be (or stays) green\notherwise you're wrong")
                 Spacer(modifier = Modifier.height(12.dp))
                 ProjectOutlinedButton(text = "Play Quiz", onClick = {
-                    navHostController.navigate(Screen.QuizScreen.route) {
+                    navController.navigate(Screen.QuizScreen.route) {
                         popUpTo(Screen.StartScreen.route) {
                             inclusive = true
                         }

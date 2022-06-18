@@ -14,6 +14,8 @@ import com.cherry.guessthething.data.remote.ResponseServiceImpl
 import com.cherry.guessthething.domain.Repository
 import com.cherry.guessthething.domain.parseHtmlToCartoonList
 import com.cherry.guessthething.model.Cartoon
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class RepositoryImpl(
     private val application: Application,
@@ -52,12 +54,11 @@ class RepositoryImpl(
         }
     }
 
-    override suspend fun getMaxResult(): Int {
-        var max = 0
-        application.dataStore.data.collect { preferenses ->
-            max = preferenses[MAX_RESULT_KEY] ?: 0
+    override fun getMaxResult(): Flow<Int> {
+        val getResult = application.dataStore.data.map { preferenses ->
+            preferenses[MAX_RESULT_KEY] ?: 0
         }
-        return max
+        return getResult
     }
 
 }

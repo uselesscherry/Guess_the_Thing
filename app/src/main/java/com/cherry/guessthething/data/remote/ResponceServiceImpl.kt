@@ -9,7 +9,7 @@ import io.ktor.http.*
 
 class ResponseServiceImpl(
     private val client: HttpClient
-):ResponseService {
+) : ResponseService {
     override suspend fun getPosts(): String {
         return try {
             val response: HttpResponse = client.get("https://uaserials.pro/cartoons/") {

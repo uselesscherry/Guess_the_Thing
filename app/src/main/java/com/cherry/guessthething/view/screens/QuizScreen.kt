@@ -11,13 +11,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -30,6 +28,8 @@ import com.cherry.guessthething.domain.ProjectColors
 import com.cherry.guessthething.domain.quizCountDown
 import com.cherry.guessthething.view.Screen
 import com.cherry.guessthething.view.components.ProjectOutlinedButton
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun QuizScreen(navController: NavHostController, viewModel: CartoonViewModel) {
@@ -43,9 +43,22 @@ fun QuizScreen(navController: NavHostController, viewModel: CartoonViewModel) {
     //launchedEffect for Timer
 
 
-    LaunchedEffect(key1 = true){
-        quizCountDown(CartoonViewModel.normalModeTime){
-            navController.navigate(Screen.QuizResultScreen.route.replaceAfter("/","-1"))
+    LaunchedEffect(key1 = true) {
+
+        quizCountDown(CartoonViewModel.normalModeTime) {
+
+            this.launch(Dispatchers.IO) { viewModel.setMaxResult(viewModel.rightAnswerCount) }
+
+            navController.navigate(
+                Screen.QuizResultScreen.withArgs(viewModel.rightAnswerCount)
+            ) {
+                popUpTo(
+                    Screen.QuizResultScreen.withArgs(viewModel.rightAnswerCount)
+                ) {
+                    inclusive = true
+                }
+            }
+            viewModel.clearCount()
         }
     }
 
@@ -59,8 +72,9 @@ fun QuizScreen(navController: NavHostController, viewModel: CartoonViewModel) {
             modifier = Modifier
                 .fillMaxWidth(0.6f),
             elevation = 0.dp,
-            border = BorderStroke(2.dp,ProjectColors.DarkBlue),
-            shape = RoundedCornerShape(16.dp)
+            border = BorderStroke(2.dp, ProjectColors.DarkBlue),
+            shape = RoundedCornerShape(16.dp),
+            backgroundColor = Color.White.copy(alpha = 0.5f)
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -73,9 +87,11 @@ fun QuizScreen(navController: NavHostController, viewModel: CartoonViewModel) {
                         .diskCachePolicy(CachePolicy.ENABLED)
                         .build(),
                     contentDescription = "", loading = {
-                        CircularProgressIndicator(modifier = Modifier
-                            .padding(48.dp)
-                            .align(Alignment.Center))
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .padding(48.dp)
+                                .align(Alignment.Center)
+                        )
                     }, modifier = Modifier
                         .clip(RoundedCornerShape(16.dp))
                         .border(2.dp, ProjectColors.DarkBlue, RoundedCornerShape(16.dp))
@@ -88,10 +104,10 @@ fun QuizScreen(navController: NavHostController, viewModel: CartoonViewModel) {
                     LazyColumn(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         contentPadding = PaddingValues(horizontal = 8.dp)
-                    ){
-                        items(state.variants){ variant->
+                    ) {
+                        items(state.variants) { variant ->
 
-                            ProjectOutlinedButton(text =variant) {
+                            ProjectOutlinedButton(text = variant) {
                                 viewModel.onClickEvent(variant)
                             }
                         }

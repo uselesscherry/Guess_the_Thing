@@ -22,14 +22,17 @@ class CartoonViewModel(
     val isLoaded: Boolean
         get() = cartoons.isNotEmpty()
 
+    private var answerCount: Int = 0
+
+    var rightAnswerCount: Int = 0
+        private set
+
+    val maxResult = repository.getMaxResult()
 
     companion object {
         const val normalModeTime = 30
         private const val buttonCount = 4
     }
-
-    var maxResult: Int = -1
-    private set
 
     private lateinit var _state: MutableState<QuestionState>
     lateinit var state: State<QuestionState>
@@ -37,7 +40,6 @@ class CartoonViewModel(
     init {
         Log.i("bebra", isLoaded.toString())
         viewModelScope.launch {
-           // maxResult = repository.getMaxResult()
             repository.loadCartoonsList()
             cartoons = repository.getCartoons()
             playGame()
@@ -93,9 +95,23 @@ class CartoonViewModel(
 
     fun onClickEvent(answer: String) {
         val isRightAnswer = answer == _state.value.rightAnswer.name
+        if (isRightAnswer) {
+            rightAnswerCount++
+        }
+        answerCount++
+
         _state.value = state.value.copy(isAnswerRight = isRightAnswer)
         playGame()
         _state.value =
             state.value.copy(rightAnswer = Setting.rightAnswer, variants = Setting.variants)
+    }
+
+    suspend fun setMaxResult(currentResult: Int) {
+        repository.saveMaxResult(currentResult)
+    }
+
+    fun clearCount() {
+        answerCount = 0
+        rightAnswerCount = 0
     }
 }
