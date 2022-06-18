@@ -2,6 +2,7 @@ package com.cherry.guessthething.domain
 
 import androidx.compose.ui.graphics.Color
 import com.cherry.guessthething.model.Cartoon
+import kotlinx.coroutines.delay
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -35,4 +36,15 @@ fun parseHtmlToCartoonList(trimmedHtmlCode: String): ArrayList<Cartoon> {
         fullCartoonList.add(Cartoon(imgList[i], nameList[i]))
     }
     return fullCartoonList
+}
+
+suspend fun quizCountDown(time: Int, navAction:()->Unit){
+    if (time>0){
+        var funTime = time
+        while (funTime!=0){
+            funTime--
+            delay(1000)
+        }
+        navAction()
+    }
 }

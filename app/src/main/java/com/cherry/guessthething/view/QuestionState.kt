@@ -5,5 +5,5 @@ import com.cherry.guessthething.model.Cartoon
 data class QuestionState(
     val rightAnswer:Cartoon,
     val variants: ArrayList<String>,
-    var isAnswerRight: Boolean = true
+    var isAnswerRight: Boolean = true,
 )

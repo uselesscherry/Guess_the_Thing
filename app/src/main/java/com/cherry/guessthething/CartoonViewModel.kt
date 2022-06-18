@@ -15,13 +15,24 @@ import kotlin.random.Random
 
 class CartoonViewModel(
     application: Application,
-    repository: RepositoryImpl = RepositoryImpl(application = application)
+    private val repository: RepositoryImpl = RepositoryImpl(application = application)
 ) : ViewModel() {
 
     var cartoons: List<Cartoon> = emptyList()
-    private val buttonCount = 4
     val isLoaded: Boolean
         get() = cartoons.isNotEmpty()
+
+    private var answerCount: Int = 0
+
+    var rightAnswerCount: Int = 0
+        private set
+
+    val maxResult = repository.getMaxResult()
+
+    companion object {
+        const val normalModeTime = 30
+        private const val buttonCount = 4
+    }
 
     private lateinit var _state: MutableState<QuestionState>
     lateinit var state: State<QuestionState>
@@ -30,7 +41,6 @@ class CartoonViewModel(
         Log.i("bebra", isLoaded.toString())
         viewModelScope.launch {
             repository.loadCartoonsList()
-
             cartoons = repository.getCartoons()
             playGame()
             Log.i("bebra", isLoaded.toString())
@@ -85,10 +95,23 @@ class CartoonViewModel(
 
     fun onClickEvent(answer: String) {
         val isRightAnswer = answer == _state.value.rightAnswer.name
+        if (isRightAnswer) {
+            rightAnswerCount++
+        }
+        answerCount++
+
         _state.value = state.value.copy(isAnswerRight = isRightAnswer)
         playGame()
         _state.value =
             state.value.copy(rightAnswer = Setting.rightAnswer, variants = Setting.variants)
+    }
 
+    suspend fun setMaxResult(currentResult: Int) {
+        repository.saveMaxResult(currentResult)
+    }
+
+    fun clearCount() {
+        answerCount = 0
+        rightAnswerCount = 0
     }
 }
