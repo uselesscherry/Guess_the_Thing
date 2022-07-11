@@ -38,10 +38,10 @@ fun parseHtmlToCartoonList(trimmedHtmlCode: String): ArrayList<Cartoon> {
     return fullCartoonList
 }
 
-suspend fun quizCountDown(time: Int, navAction:()->Unit){
-    if (time>0){
+suspend fun quizCountDown(time: Int, navAction: () -> Unit) {
+    if (time > 0) {
         var funTime = time
-        while (funTime!=0){
+        while (funTime != 0) {
             funTime--
             delay(1000)
         }

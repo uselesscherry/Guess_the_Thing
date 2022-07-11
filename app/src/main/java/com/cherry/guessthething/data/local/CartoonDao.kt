@@ -9,10 +9,10 @@ import com.cherry.guessthething.model.Cartoon
 @Dao
 interface CartoonDao {
 
-@Query("SELECT * FROM cartoon")
-    suspend fun getCartoons():List<Cartoon>
+    @Query("SELECT * FROM cartoon")
+    suspend fun getCartoons(): List<Cartoon>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-   suspend fun insertAllCartoons(cartoons: List<Cartoon>)
+    suspend fun insertAllCartoons(cartoons: List<Cartoon>)
 
 }

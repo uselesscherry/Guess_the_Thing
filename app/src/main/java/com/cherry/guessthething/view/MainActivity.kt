@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
 
         //test
         val list = viewModel.cartoons
-            Log.i("bebra", if (list.isEmpty())"isEmpty" else list[1].toString())
+        Log.i("bebra", if (list.isEmpty()) "isEmpty" else list[1].toString())
 
         setContent {
             val navHostController = rememberNavController()
