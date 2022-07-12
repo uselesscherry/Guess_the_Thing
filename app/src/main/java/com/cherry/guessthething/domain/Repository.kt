@@ -1,6 +1,6 @@
 package com.cherry.guessthething.domain
 
-import com.cherry.guessthething.model.Cartoon
+import com.cherry.guessthething.domain.model.Cartoon
 import kotlinx.coroutines.flow.Flow
 
 interface Repository {

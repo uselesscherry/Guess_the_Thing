@@ -1,4 +1,4 @@
-package com.cherry.guessthething
+package com.cherry.guessthething.presentation
 
 import android.app.Application
 import android.util.Log
@@ -8,14 +8,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cherry.guessthething.data.RepositoryImpl
-import com.cherry.guessthething.model.Cartoon
-import com.cherry.guessthething.view.QuestionState
+import com.cherry.guessthething.domain.Repository
+import com.cherry.guessthething.domain.model.Cartoon
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
 class CartoonViewModel(
-    application: Application,
-    private val repository: RepositoryImpl = RepositoryImpl(application = application)
+    private val repository: Repository
 ) : ViewModel() {
 
     var cartoons: List<Cartoon> = emptyList()

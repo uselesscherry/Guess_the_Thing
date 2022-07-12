@@ -1,6 +1,5 @@
 package com.cherry.guessthething.data
 
-import android.app.Application
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -8,19 +7,18 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.cherry.guessthething.data.local.CartoonDao
-import com.cherry.guessthething.data.local.CartoonDatabase
 import com.cherry.guessthething.data.remote.ResponseService
 import com.cherry.guessthething.data.remote.ResponseServiceImpl
 import com.cherry.guessthething.domain.Repository
 import com.cherry.guessthething.domain.parseHtmlToCartoonList
-import com.cherry.guessthething.model.Cartoon
+import com.cherry.guessthething.domain.model.Cartoon
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class RepositoryImpl(
-    private val application: Application,
+    private val context: Context,
     private val responseService: ResponseService = ResponseService.create() as ResponseServiceImpl,
-    private val cartoonDao: CartoonDao = CartoonDatabase.getInstance(application).cartoonDao()
+    private val cartoonDao: CartoonDao
 ) : Repository {
 
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "quiz_result")
@@ -46,7 +44,7 @@ class RepositoryImpl(
 
 
     override suspend fun saveMaxResult(result: Int) {
-        application.dataStore.edit { preferences ->
+        context.dataStore.edit { preferences ->
             val maxResult = preferences[MAX_RESULT_KEY] ?: 0
             if (result > maxResult) {
                 preferences[MAX_RESULT_KEY] = result
@@ -55,7 +53,7 @@ class RepositoryImpl(
     }
 
     override fun getMaxResult(): Flow<Int> {
-        val getResult = application.dataStore.data.map { preferenses ->
+        val getResult = context.dataStore.data.map { preferenses ->
             preferenses[MAX_RESULT_KEY] ?: 0
         }
         return getResult

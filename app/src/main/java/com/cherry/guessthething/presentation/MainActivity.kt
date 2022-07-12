@@ -1,18 +1,18 @@
-package com.cherry.guessthething.view
+package com.cherry.guessthething.presentation
 
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.rememberNavController
-import com.cherry.guessthething.CartoonViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
 
-    private lateinit var viewModel: CartoonViewModel
+    private val viewModel: CartoonViewModel by viewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = CartoonViewModel(application)
+
 
         //test
         val list = viewModel.cartoons

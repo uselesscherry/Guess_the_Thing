@@ -1,7 +1,7 @@
 package com.cherry.guessthething.domain
 
 import androidx.compose.ui.graphics.Color
-import com.cherry.guessthething.model.Cartoon
+import com.cherry.guessthething.domain.model.Cartoon
 import kotlinx.coroutines.delay
 import java.util.regex.Matcher
 import java.util.regex.Pattern

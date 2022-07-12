@@ -1,4 +1,4 @@
-package com.cherry.guessthething.view.screens
+package com.cherry.guessthething.presentation.screens
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
@@ -23,11 +23,11 @@ import androidx.navigation.NavHostController
 import coil.compose.SubcomposeAsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
-import com.cherry.guessthething.CartoonViewModel
+import com.cherry.guessthething.presentation.CartoonViewModel
 import com.cherry.guessthething.domain.ProjectColors
 import com.cherry.guessthething.domain.quizCountDown
-import com.cherry.guessthething.view.Screen
-import com.cherry.guessthething.view.components.ProjectOutlinedButton
+import com.cherry.guessthething.presentation.Screen
+import com.cherry.guessthething.presentation.components.ProjectOutlinedButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

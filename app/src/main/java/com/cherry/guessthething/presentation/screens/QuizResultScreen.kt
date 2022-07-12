@@ -1,4 +1,4 @@
-package com.cherry.guessthething.view.screens
+package com.cherry.guessthething.presentation.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,8 +10,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import com.cherry.guessthething.CartoonViewModel
-import com.cherry.guessthething.view.Screen
+import com.cherry.guessthething.presentation.CartoonViewModel
+import com.cherry.guessthething.presentation.Screen
 
 @Composable
 fun QuizResultScreen(

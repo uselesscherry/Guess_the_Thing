@@ -1,6 +1,6 @@
-package com.cherry.guessthething.view
+package com.cherry.guessthething.presentation
 
-import com.cherry.guessthething.model.Cartoon
+import com.cherry.guessthething.domain.model.Cartoon
 
 data class QuestionState(
     val rightAnswer: Cartoon,

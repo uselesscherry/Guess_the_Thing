@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.cherry.guessthething.model.Cartoon
+import com.cherry.guessthething.domain.model.Cartoon
 
 @Dao
 interface CartoonDao {

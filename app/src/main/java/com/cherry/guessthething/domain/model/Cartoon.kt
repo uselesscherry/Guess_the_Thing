@@ -1,4 +1,4 @@
-package com.cherry.guessthething.model
+package com.cherry.guessthething.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

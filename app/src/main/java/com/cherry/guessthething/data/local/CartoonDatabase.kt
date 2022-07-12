@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.cherry.guessthething.model.Cartoon
+import com.cherry.guessthething.domain.model.Cartoon
 
 @Database(entities = [Cartoon::class], version = 1)
 abstract class CartoonDatabase : RoomDatabase() {
@@ -12,7 +12,7 @@ abstract class CartoonDatabase : RoomDatabase() {
     abstract fun cartoonDao(): CartoonDao
 
     companion object {
-        private const val DB_NAME = "main.db"
+        const val DB_NAME = "main.db"
         private var db: CartoonDatabase? = null
 
         @Synchronized

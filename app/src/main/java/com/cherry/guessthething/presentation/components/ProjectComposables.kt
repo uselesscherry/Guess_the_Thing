@@ -1,4 +1,4 @@
-package com.cherry.guessthething.view.components
+package com.cherry.guessthething.presentation.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.shape.RoundedCornerShape

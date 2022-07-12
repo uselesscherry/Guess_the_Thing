@@ -1,4 +1,4 @@
-package com.cherry.guessthething.view
+package com.cherry.guessthething.presentation
 
 const val CURRENT_RESULT_KEY = "current_result"
 
