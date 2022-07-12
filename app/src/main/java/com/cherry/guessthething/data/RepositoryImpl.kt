@@ -8,16 +8,15 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.cherry.guessthething.data.local.CartoonDao
 import com.cherry.guessthething.data.remote.ResponseService
-import com.cherry.guessthething.data.remote.ResponseServiceImpl
 import com.cherry.guessthething.domain.Repository
-import com.cherry.guessthething.domain.parseHtmlToCartoonList
 import com.cherry.guessthething.domain.model.Cartoon
+import com.cherry.guessthething.domain.parseHtmlToCartoonList
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class RepositoryImpl(
     private val context: Context,
-    private val responseService: ResponseService = ResponseService.create() as ResponseServiceImpl,
+    private val responseService: ResponseService,
     private val cartoonDao: CartoonDao
 ) : Repository {
 
