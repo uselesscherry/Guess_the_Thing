@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.cherry.guessthething.presentation.CartoonViewModel
 import com.cherry.guessthething.presentation.Screen
+import com.cherry.guessthething.presentation.components.ProjectOutlinedButton
 
 @Composable
 fun QuizResultScreen(
@@ -26,14 +27,12 @@ fun QuizResultScreen(
     ) {
         Text(text = "your result:$currentResult")
         Text(text = "max result:${viewModel.maxResult.collectAsState(initial = -1).value}")
-        Button(onClick = {
+        ProjectOutlinedButton(text ="Play again" ) {
             navController.navigate(Screen.QuizScreen.route) {
                 popUpTo(Screen.QuizScreen.route) {
                     inclusive = true
                 }
             }
-        }) {
-            Text(text = "play again")
         }
     }
 }
