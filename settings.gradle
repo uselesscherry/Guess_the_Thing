@@ -14,3 +14,12 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Guess the Thing"
 include ':app'
+include ':core'
+include ':feature'
+include ':feature:welcome-ui'
+include ':core:presentation'
+include ':core:quizer'
+include ':feature:color-data'
+include ':feature:color-quiz-ui'
+include ':feature:result-ui'
+include ':navigation'
